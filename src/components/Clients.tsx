@@ -23,27 +23,11 @@ const Clients = () => {
           Trusted by leading brands
         </h2>
         
-        {/* Static display on medium and larger screens */}
-        <div className="hidden md:grid grid-cols-3 lg:grid-cols-5 gap-8 items-center justify-items-center">
-          {clients.slice(0, 10).map((client) => (
-            <div 
-              key={client.id} 
-              className="text-xl md:text-2xl font-bold text-white opacity-80 hover:opacity-100 hover:text-positivus-green transition-all duration-300 py-3"
-            >
-              {client.name}
-            </div>
-          ))}
-        </div>
+        {/* Scrolling banner for all screen sizes */}
+        <ScrollingBanner items={clients} direction="left" speed={30} className="mb-8" />
         
-        {/* Scrolling banner only on mobile */}
-        <div className="md:hidden">
-          <ScrollingBanner items={clients} direction="left" speed={35} />
-        </div>
-        
-        {/* Hidden on small screens, shown on medium+ */}
-        <div className="hidden md:block mt-16">
-          <ScrollingBanner items={clients} direction="left" speed={25} className="opacity-80" />
-        </div>
+        {/* Secondary scrolling banner going in the opposite direction */}
+        <ScrollingBanner items={[...clients].reverse()} direction="right" speed={25} className="opacity-80" />
       </div>
     </section>
   );
