@@ -22,20 +22,27 @@ const Clients = () => {
         <h2 className="text-2xl md:text-3xl font-bold mb-12 text-center">
           Trusted by leading brands
         </h2>
-        <div className="hidden md:grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 md:gap-12 items-center justify-items-center">
-          {clients.slice(0, 6).map((client) => (
-            <div key={client.id} className="text-xl md:text-2xl font-bold text-white opacity-80 hover:opacity-100 hover:text-positivus-green transition-all duration-300">
+        
+        {/* Static display on medium and larger screens */}
+        <div className="hidden md:grid grid-cols-3 lg:grid-cols-5 gap-8 items-center justify-items-center">
+          {clients.slice(0, 10).map((client) => (
+            <div 
+              key={client.id} 
+              className="text-xl md:text-2xl font-bold text-white opacity-80 hover:opacity-100 hover:text-positivus-green transition-all duration-300 py-3"
+            >
               {client.name}
             </div>
           ))}
         </div>
         
+        {/* Scrolling banner only on mobile */}
         <div className="md:hidden">
-          <ScrollingBanner items={clients.slice(0, 6)} direction="left" speed={30} />
+          <ScrollingBanner items={clients} direction="left" speed={35} />
         </div>
         
-        <div className="hidden md:block mt-12">
-          <ScrollingBanner items={clients} direction="left" speed={40} />
+        {/* Hidden on small screens, shown on medium+ */}
+        <div className="hidden md:block mt-16">
+          <ScrollingBanner items={clients} direction="left" speed={25} className="opacity-80" />
         </div>
       </div>
     </section>

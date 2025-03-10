@@ -61,7 +61,7 @@ const ScrollingBanner: React.FC<ScrollingBannerProps> = ({
           {items.map((item) => (
             <div 
               key={item.id} 
-              className="text-xl md:text-2xl font-bold text-white opacity-80 hover:opacity-100 hover:text-positivus-green transition-all duration-300 mx-8 whitespace-nowrap"
+              className="text-xl md:text-2xl font-bold text-white hover:opacity-100 hover:text-positivus-green transition-all duration-300 mx-8 whitespace-nowrap"
             >
               {item.name}
             </div>
