@@ -14,59 +14,48 @@ const ScrollingBanner: React.FC<ScrollingBannerProps> = ({
   speed = 40,
   className = '',
 }) => {
-  const bannerRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
+  const scrollerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!bannerRef.current || !contentRef.current) return;
+    if (!scrollerRef.current) return;
     
-    const banner = bannerRef.current;
-    const content = contentRef.current;
-    
-    // Clone the content to create a seamless loop
-    const clone = content.cloneNode(true) as HTMLDivElement;
-    banner.appendChild(clone);
-    
-    let animationId: number;
-    let position = 0;
-    
-    const animate = () => {
-      // Reset position when we've scrolled the full width of the original content
-      if (Math.abs(position) >= content.offsetWidth) {
-        position = 0;
-      }
-      
-      // Increment position based on direction and speed
-      position -= direction === 'left' ? 0.5 * (speed / 40) : -0.5 * (speed / 40);
-      
-      // Apply the transform
-      banner.style.transform = `translateX(${position}px)`;
-      
-      animationId = requestAnimationFrame(animate);
-    };
-    
-    animate();
-    
-    return () => {
-      if (animationId) {
-        cancelAnimationFrame(animationId);
-      }
-    };
+    // Set animation properties directly via CSS
+    scrollerRef.current.setAttribute(
+      'style',
+      `--animation-direction: ${direction === 'left' ? 'forwards' : 'backwards'};
+       --animation-duration: ${100 / speed}s;`
+    );
   }, [direction, speed]);
 
   return (
-    <div className={`overflow-hidden ${className}`}>
-      <div className="inline-flex" ref={bannerRef}>
-        <div className="inline-flex items-center" ref={contentRef}>
-          {items.map((item) => (
-            <div 
-              key={item.id} 
-              className="text-xl md:text-2xl font-bold text-white hover:opacity-100 hover:text-positivus-green transition-all duration-300 mx-8 whitespace-nowrap"
-            >
-              {item.name}
-            </div>
-          ))}
-        </div>
+    <div className={`relative w-full overflow-hidden ${className}`}>
+      <div 
+        ref={scrollerRef}
+        className="flex whitespace-nowrap animate-scroll"
+        style={{
+          animationDirection: 'var(--animation-direction)',
+          animationDuration: 'var(--animation-duration)',
+        }}
+      >
+        {/* First copy of items */}
+        {items.map((item) => (
+          <div 
+            key={`a-${item.id}`} 
+            className="mx-8 text-xl md:text-2xl font-bold text-white hover:opacity-100 hover:text-positivus-green transition-all duration-300 whitespace-nowrap"
+          >
+            {item.name}
+          </div>
+        ))}
+        
+        {/* Duplicate set of items to create the seamless loop */}
+        {items.map((item) => (
+          <div 
+            key={`b-${item.id}`} 
+            className="mx-8 text-xl md:text-2xl font-bold text-white hover:opacity-100 hover:text-positivus-green transition-all duration-300 whitespace-nowrap"
+          >
+            {item.name}
+          </div>
+        ))}
       </div>
     </div>
   );

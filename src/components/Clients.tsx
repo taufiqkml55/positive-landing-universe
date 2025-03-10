@@ -23,11 +23,8 @@ const Clients = () => {
           Trusted by leading brands
         </h2>
         
-        {/* Scrolling banner for all screen sizes */}
-        <ScrollingBanner items={clients} direction="left" speed={30} className="mb-8" />
-        
-        {/* Secondary scrolling banner going in the opposite direction */}
-        <ScrollingBanner items={[...clients].reverse()} direction="right" speed={25} className="opacity-80" />
+        {/* Single scrolling banner with continuous loop */}
+        <ScrollingBanner items={clients} direction="left" speed={30} />
       </div>
     </section>
   );
